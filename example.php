@@ -65,12 +65,12 @@ echo $chart;
 			'Opera' => 1.4,
 		),
 		'January 2008' => array(
-			'IE7' => 22,
-			'IE6' => 30.7,
+			'IE7' => 12,
+			'IE6' => 40.7,
 			'IE5' => 1.7,
-			'Firefox' => 36.5,
-			'Mozilla' => 1.1,
-			'Safari' => 2,
+			'Firefox' => 39.5,
+			'Mozilla' => 2.1,
+			'Safari' => 5,
 			'Opera' => 1.4,
 		),
 	);
