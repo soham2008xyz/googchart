@@ -54,6 +54,8 @@ class GoogChart
 	protected $legend;
 	protected $useLegend = true;
 	protected $background = 'a,s,ffffff';
+	protected $max;
+	protected $min;
 
 	protected $query = array();
 
@@ -78,10 +80,13 @@ class GoogChart
 							'chd' => 't:'.$this->data['values'],								// Data
 							'chl'   => $this->data['names'],									// Data labels
 							'chdl' => ( ($this->useLegend) && (is_array($this->legend)) ) ? implode('|',$this->legend) : null, // Data legend
+							'chds' => $this->min.','.$this->max,								// Data scale
 							'chs'   => $this->size[0].'x'.$this->size[1],						// Size
 							'chco'   => preg_replace( '/[#]+/', '', implode(',',$this->color)), // Color ( Remove # from string )
 							'chm'   => preg_replace( '/[#]+/', '', implode('|',$this->fill)),   // Fill ( Remove # from string )
-							'chxt' => ( $this->labelsXY == true) ? 'x,y' : null,				// X & Y axis labels
+							'chxt' => ( $this->labelsXY == true) ? 'y' : null,				// X & Y axis labels
+							//'chxr' => '0,10,30',												// Data range
+							'chxr' => '0,'.($this->max/2).','.$this->max,						// Data range
 							'chf' => preg_replace( '/[#]+/', '', $this->background),			// Background color ( Remove # from string )
 						);
 
@@ -135,6 +140,13 @@ class GoogChart
 			*/
 			foreach( $data as $key => $value )
 			{
+				// Set highest & lowest
+				foreach( $value as $valueS ) {
+					if( empty($this->min) || $valueS < $this->min )
+						$this->min = $valueS;
+					if( empty($this->max) || $valueS > $this->max )
+						$this->max = $valueS;
+				}
 				// Add data values
 				$this->data['values'][] = implode( ',', $value );
 
@@ -150,6 +162,13 @@ class GoogChart
 		}
 		else
 		{
+			// Set highest & lowest
+			foreach( $data as $value ) {
+				if( empty($this->min) || $value < $this->min )
+					$this->min = $value;
+				if( empty($this->max) || $value > $this->max )
+					$this->max = $value;
+			}
 			/** Single set of data
 			*/
 			// Add data values
